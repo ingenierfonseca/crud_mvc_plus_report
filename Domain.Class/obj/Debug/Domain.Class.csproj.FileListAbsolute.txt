@@ -1,0 +1,5 @@
+c:\users\dell\documents\visual studio 2015\Projects\crud_mvc_plus_report\Domain.Class\bin\Debug\Domain.Class.dll
+c:\users\dell\documents\visual studio 2015\Projects\crud_mvc_plus_report\Domain.Class\bin\Debug\Domain.Class.pdb
+c:\users\dell\documents\visual studio 2015\Projects\crud_mvc_plus_report\Domain.Class\obj\Debug\Domain.Class.dll
+c:\users\dell\documents\visual studio 2015\Projects\crud_mvc_plus_report\Domain.Class\obj\Debug\Domain.Class.pdb
+c:\users\dell\documents\visual studio 2015\Projects\crud_mvc_plus_report\Domain.Class\obj\Debug\Domain.Class.csprojResolveAssemblyReference.cache

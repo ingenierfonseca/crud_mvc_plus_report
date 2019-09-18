@@ -1,0 +1,38 @@
+﻿@model IEnumerable<crud_mvc_plus_report.Models.ModuleForms>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.NameModule)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NameForm)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.NameModule)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NameForm)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.AssigmentId }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.AssigmentId })
+        </td>
+    </tr>
+}
+
+</table>

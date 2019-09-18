@@ -1,0 +1,112 @@
+﻿@model IEnumerable<Domain.Class.Provincia>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+<script src="~/scripts/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.ajax({
+            type: "Get",
+            url: "http://localhost:28555/Pais/countries",
+            dataType: 'Json',
+            success: function (data) {
+                //debugger;
+                console.log("listo");
+                console.log(data);
+                $('#country').append('<option value=0>Todos</option>');
+                for (var i = 0; i < data.length; i++) {
+                    $("#country").append('<option value=' + data[i].IdPais + '>' + data[i].Nombre + '</option>');
+                }
+            },
+            error: function (request, status, error) {
+                console.log("error " + error);
+            }
+        })
+
+        $('#country').on('change', function () {
+            console.log($(this).find(":selected").val());
+
+            $.ajax({
+                type: "Post",
+                url: "http://localhost:28555/Provincias/ProvinciasPais",
+                dataType: "json",
+                data: { "id": this.value },
+                success: function (data) {
+                    $("#table tr").remove();
+                    $("#table").append("<tr><th>Provincias</th></tr>")
+                    $.each(JSON.parse(data), function (i, item) {
+                        var rows = "<tr><td>" + item.Nombre + "</td></tr>";
+                        $("#table").append(rows);
+                    })
+                }
+            })
+        })
+
+        $('#Excel').click(function (e) {
+            e.preventDefault();
+            window.location.href = $(this).attr('href') + '?ReportType=Excel&id=' + $('#country').val();
+        });
+        $('#Pdf').click(function (e) {
+            e.preventDefault();
+            window.location.href = $(this).attr('href') + '?ReportType=Pdf&id=' + $('#country').val();
+        });
+        $('#Word').click(function (e) {
+            e.preventDefault();
+            window.location.href = $(this).attr('href') + '?ReportType=Word&id=' + $('#country').val();
+        });
+        $('#Imagen').click(function (e) {
+            e.preventDefault();
+            window.location.href = $(this).attr('href') + '?ReportType=Imagen&id=' + $('#country').val();
+        });
+
+        function repoExport(e, type) {
+            window.location.href = $(this).attr('href') + '?ReportType=' + type + '&id=' + $('#country').val();
+        }
+    })
+</script>
+
+<select id="country" style="width:200px" class="form-control"></select> <input type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" width="100" />
+<button class="btn btn-primary">Aceptar</button>
+<img src="https://img.icons8.com/cotton/2x/calendar.png" width="30" height="30" />
+<br />
+@Html.ActionLink("Exportar a Excel", "Report", null, new { ReportType = "Excel", id = "Excel" }) |
+@Html.ActionLink("Exportar a Pdf", "Report", null, new { ReportType = "Pdf", Id = "Pdf" }) |
+@Html.ActionLink("Exportar a Word", "Report", null, new { ReportType = "Word", Id = "Word" }) |
+
+<table id="table" class="table">
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.Nombre)</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.Nombre)</td>
+        </tr>
+    }
+</table>
+
+<iframe id="frameReport" style="height:500px;width:99%;" , frameborder="0" scrolling="no">
+    @section scripts {
+        <script>
+            $(document).ready(function () {
+                loadReport();
+            })
+        </script>
+        <script>
+            function loadReport() {
+                var url = "../SRSS/AdapterReportPage.aspx";
+                var frame = document.getElementById("frameReport");
+                if (frame.src) {
+                    frame.src = url;
+                } else if (frame.contentWindow !== null && frame.contentWindow.location !== null) {
+                    frame.contentWindow.location = url;
+                } else {
+                    frame.setAttribute('src', url);
+                }
+
+            }
+        </script>
+    }
+</iframe>
